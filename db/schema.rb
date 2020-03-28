@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 2019_06_07_014104) do
 
-  create_table "exams", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "exams", force: :cascade do |t|
     t.bigint "patient_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -23,13 +26,13 @@ ActiveRecord::Schema.define(version: 2019_06_07_014104) do
     t.index ["patient_id"], name: "index_exams_on_patient_id"
   end
 
-  create_table "patients", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "patients", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "points", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "points", force: :cascade do |t|
     t.decimal "x", precision: 7, scale: 3
     t.decimal "y", precision: 7, scale: 3
     t.datetime "created_at", null: false
