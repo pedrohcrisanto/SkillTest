@@ -18,15 +18,12 @@ class Exam < ApplicationRecord
     ang_alfa2 = tg_alfa2 * (180.0/Math::PI)
     ang_beta = tg_beta * (180.0/Math::PI)
 
-    ang_beta2 = 90 - ang_beta
+    ang_beta2 = 90.0 - ang_beta
    
     ang_alfa = ang_beta2 + ang_alfa2
 
-    ang_omega = 180 - ang_alfa
+    ang_omega = 180.0 - ang_alfa
 
     return ang_omega
-    
-     
-
   end
 end
