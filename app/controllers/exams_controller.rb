@@ -11,7 +11,6 @@ class ExamsController < ApplicationController
   # GET /exams/1.json
   def show
     @exam = Exam.find(params[:id])
-    render "_show", layout: false
   end
 
   def new
