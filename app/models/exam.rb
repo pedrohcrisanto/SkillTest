@@ -12,6 +12,14 @@ class Exam < ApplicationRecord
   accepts_nested_attributes_for :point_a
 
   def maxillary_depth_angle
-    return nil if self.point_po.x.nil? or self.point_po.y.nil? or self.point_or.x.nil? or self.point_or.y.nil? or self.point_n.x.nil? or self.point_n.y.nil? or self.point_a.x.nil? or self.point_a.y.nil?
+    tg_po = self.point_po.x/self.point_po.y
+    tg_a = self.point_a.x/self.point_a.y
+
+    beta = tg_po * (180.0/Math::PI)
+    omega = tg_a * (180.0/Math::PI)
+    alfa = 180 - beta - omega
+    
+    
+    return alfa
   end
 end

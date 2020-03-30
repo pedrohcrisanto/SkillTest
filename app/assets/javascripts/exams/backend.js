@@ -14,4 +14,8 @@ Exams.Backend = class{
   editPath(examId){
     return `/patients/${this.patientId}/exams/${examId}/edit`
   }
+
+  showPath(examId){
+    return `/patients/${this.patientId}/exams/${examId}`
+  }
 }

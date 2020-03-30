@@ -12,6 +12,7 @@ Exams.Gui = class{
   bindingEvents(){
     this.$btnCreate.on("click", (e) => this.btnClickHandlerToShowCreateForm(e))
     this.$tbody.on("click", "[data-exams='btn-edit']", (e) => this.btnClickHandlerToShowEditForm(e))
+    this.$tbody.on("click", "[data-exams='btn-show']", (e) => this.btnClickHandlerToShowShow(e))
     this.$modal.on('click', "[data-exam='btn-save']", (e) => this.btnClickHandlerToSaveExam(e))
     this.$modal.on("ajax:success", 'form', (e) => this.responseSuccessHandler(e))
     this.$modal.on("ajax:error", 'form', (e) => this.responseErrorHandler())
@@ -33,6 +34,41 @@ Exams.Gui = class{
     this.$modal.modal('hide')
   }
 
+  render3D(){
+    var camera, scene, renderer;
+    var geometry, material, mesh;
+
+    init();
+    animate();
+
+    function init() {
+
+	  camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
+	  camera.position.z = 0.5;
+
+	  scene = new THREE.Scene();
+
+    var geometry = new THREE.PlaneGeometry( 0.2, 0.2, 0.2 );
+    var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide, wireframe: true} );
+    var plane = new THREE.Mesh( geometry, material );
+
+
+    mesh = new THREE.Mesh( geometry, material );
+    scene.add( mesh );
+
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    document.body.appendChild( renderer.domElement );
+  }
+
+    function animate() {
+      requestAnimationFrame( animate );
+      mesh.rotation.x += 0.01;
+      mesh.rotation.y += 0.02;
+      renderer.render( scene, camera );
+    }
+  }
+
   responseErrorHandler(){
     alert('Error on exam create/edit')
   }
@@ -42,12 +78,21 @@ Exams.Gui = class{
     this.loadFormOnModal(this.backend.editPath(examId))
   }
 
+  btnClickHandlerToShowShow(e){
+    let examId = $(e.target).closest('[data-exam-id]').data().examId
+    this.loadShow3D(this.backend.showPath(examId))
+  }
+
   btnClickHandlerToShowCreateForm(e){
     this.loadFormOnModal(this.backend.newPath())
   }
 
   loadFormOnModal(url){
     this.$modal.find('.modal-content').load(`${url}`, () => this.$modal.modal('show'))
+  }
+  
+  loadShow3D(url){
+   this.render3D()
   }
 
   addExams(exams){
@@ -67,7 +112,7 @@ Exams.Gui = class{
     html += `<td data-exam-angle='${exam.angle}'>${exam.angle}</td>`
     html += `<td>
       <div class="float-right">
-        <a class="btn btn-sm btn-secondary" href="/patients/${exam.patientId}/exams/${exam.id}">Show</a>
+        <button class="btn btn-sm btn-secondary" type='button' data-exams='btn-show'">Show</button>
         <button class="btn btn-sm btn-secondary" type='button' data-exams='btn-edit'>Edit</button>
         <a class="btn btn-sm btn-danger delete" data-remote="true" data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/patients/${exam.patientId}/exams/${exam.id}">Destroy</a>
       </div>
