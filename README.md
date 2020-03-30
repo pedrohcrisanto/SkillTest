@@ -26,7 +26,31 @@ Separamos o teste em três partes e cada parte testa um conhecimento. Faça o ma
 - Criar na página show de exame um canvas para representar graficamente os planos Po-Or e N-A do paciente no espaço 3D. O resultado esperado é o desenho dos dois planos e a interseção desses.
 - Implementar ações de movimento de câmera para visualizar os planos de outros ângulos. (dica: utilizar o THREE.TrackballControls)
 
-## Entrega
-O prazo para realização da atividade será contabilizado a partir da sua confirmação de recebimento do email com esta atividade.
+## Configuração
 
-Boa sorte!
+Clone o projeto
+
+```sh
+$ git clone https://github.com/pedrohcrisanto/SkillTest.git
+```
+
+Instale as dependências
+```sh
+$ cd /SkillTest/
+$ sudo docker-compose run --rm app bundle install
+```
+
+Crie o banco, migre as tabelas
+```sh
+$ sudo docker-compose run --rm app bundle exec rails db:create db:migrate 
+```
+
+Rode a aplicação em um terminal
+```sh
+$ sudo docker-compose up
+```
+
+Para rodar os Testes
+```sh
+$ sudo docker-compose run --rm app bundle exec rspec
+```
