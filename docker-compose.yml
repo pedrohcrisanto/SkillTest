@@ -2,9 +2,13 @@ version: "3"
 
 services:
   postgres:
-    image: "postgres:9.5"
+    image: "postgres:9.6.17"
     volumes:
       - postgres:/var/lib/postgresql/data
+    ports:
+      - "5432"
+    environment: 
+      POSTGRES_HOST_AUTH_METHOD: "trust"
 
   app:
     depends_on:
